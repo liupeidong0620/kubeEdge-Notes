@@ -61,7 +61,7 @@ date
 systemctl start ntpd
 ```
 
-## 更换yum源为国内源（墙内用户,可以访问外网，无需操作）
+## 2.1.6 更换yum源为国内源（墙内用户,可以访问外网，无需操作）
 ```sh
 cd /etc/yum.repos.d  && \
 sudo mv CentOS-Base.repo CentOS-Base.repo.bak && \
@@ -175,7 +175,8 @@ docker images |grep registry.cn-hangzhou.aliyuncs.com/google_containers |awk '{p
 ```
 ## 2.4.2 master 节点初始化
 ```sh
-kubeadm init --kubernetes-version=1.17.3
+kubeadm init --kubernetes-version=1.17.3 --image-repository registry.aliyuncs.com/google_containers
+
 ```
 执行成功后，按照提示操作即可
 ```sh
