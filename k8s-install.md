@@ -47,7 +47,7 @@ sysctl --system
 modprobe br_netfilter
 ```
 
-## 2.1.4 修改hostname
+## 2.1.5 修改hostname
 ```sh
 # 自定义名字
 hostnamectl set-hostname xxxx
@@ -56,7 +56,7 @@ hostnamectl set-hostname xxxx
 x.x.x.x xxxx
 ```
 
-## 2.1.5 校对时间
+## 2.1.6 校对时间
 ```
 yum install ntp
 ntpdate pool.ntp.org
@@ -65,7 +65,7 @@ date
 systemctl start ntpd
 ```
 
-## 2.1.6 更换yum源为国内源（墙内用户,可以访问外网，无需操作）
+## 2.1.7 更换yum源为国内源（墙内用户,可以访问外网，无需操作）
 ```sh
 cd /etc/yum.repos.d  && \
 sudo mv CentOS-Base.repo CentOS-Base.repo.bak && \
