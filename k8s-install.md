@@ -200,9 +200,10 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubeadm join 192.168.198.129:6443 --token wdagmm.0he40pufw18d1n68 \
     --discovery-token-ca-cert-hash sha256:ba6ba29500a883fe4eef4d2ab575803bc6360c8c73ef03c21d7413ae027d0391
 ```
-# 2.5 添加网络插件
-master节点必须，安装网络插件
-此时我们使用kubectl get nodes查看集群节点运行情况，会发现节点始终是 NotReady，因为我们没有安装必要的网络组件，可参考参考资料4的官方文档进行选择，这里选择比较精致的 WeaveNet，根据文档进行安装，稍等几分钟后集群就正常运行了：
+# 2.5 添加网络插
+* [官方插件说明文档](https://kubernetes.io/zh/docs/concepts/cluster-administration/addons/)
+* master节点必须，安装网络插件
+* 此时我们使用kubectl get nodes查看集群节点运行情况，会发现节点始终是 NotReady，因为我们没有安装必要的网络组件，可参考参考资料4的官方文档进行选择，这里选择比较精致的 WeaveNet，根据文档进行安装，稍等几分钟后集群就正常运行了：
 
 ```sh
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
@@ -210,6 +211,10 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 
 # 2.6 集群添加node 节点
 * 2.1 ~ 2.3 全部执行一遍
+```sh
+kubeadm join 192.168.198.129:6443 --token wdagmm.0he40pufw18d1n68 --discovery-token-ca-cert-hash sha256:ba6ba29500a883fe4eef4d2ab575803bc6360c8c73ef03c21d7413ae027d0391
+```
+执行结果
 ```sh
 [root@localhost yum.repos.d]# kubeadm join 192.168.198.129:6443 --token wdagmm.0he40pufw18d1n68 \
 >     --discovery-token-ca-cert-hash sha256:ba6ba29500a883fe4eef4d2ab575803bc6360c8c73ef03c21d7413ae027d0391
@@ -247,7 +252,7 @@ kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -- sh
 稍等片刻，即可进入 busybox 命令行：
 
 ```sh
-[root@localhost yum.repos.d]# kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -                                                      - sh
+[root@localhost yum.repos.d]# kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -- sh
 If you don't see a command prompt, try pressing enter.
 / # ls
 author.txt  dev         home        lib64       root        tmp         var
