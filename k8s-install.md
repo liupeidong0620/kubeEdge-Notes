@@ -1,6 +1,7 @@
 # 1. k8s 安装文档
 * 一个master节点
 * 一个node节点
+* 两台虚拟机一个运行master节点，一个运行node节点
 * 系统: CentOS Linux release 7.7.1908 (Core)
 * 目前安装版本 k8s 1.17.3
 
