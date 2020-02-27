@@ -1,5 +1,8 @@
 # 1. k8s 安装文档
-本次安装单master 和 一个node节点
+* 一个master节点
+* 一个node节点
+* 系统: CentOS Linux release 7.7.1908 (Core)
+* 目前安装版本 k8s 1.17.3
 
 # 2. 安装步骤
 ## 2.1 基础检查
@@ -110,8 +113,10 @@ systemctl daemon-reload
 systemctl restart docker
 
 # k8s 要求安装 cgroup
-# systemctl restart docker 
-# docker info | grep -i cgroup
+# systemctl restart docker
+# 查看是否使用systemd
+docker info | grep -i cgroup
+# 结果
 Cgroup Driver: systemd
 
 # 查看版本
@@ -160,9 +165,12 @@ yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 systemctl enable --now kubelet
 ```
 
+注: 以上步骤 node & master节点都需要
+
 # 2.4 使用kubeadm初始化集群
 ## 2.4.1 拉取依赖镜像(墙内用户)
 ```sh
+# 这一步可以不做，只是展示需要的 镜像
 # 获取依赖镜像列表
 kubeadm config images list
 
@@ -177,6 +185,7 @@ docker images |grep registry.cn-hangzhou.aliyuncs.com/google_containers |awk '{p
 ```sh
 kubeadm init --kubernetes-version=1.17.3 --image-repository registry.aliyuncs.com/google_containers
 
+# -image-repository 指定阿里云镜像，下载master节点需要的镜像
 ```
 执行成功后，按照提示操作即可
 ```sh
@@ -184,15 +193,53 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
 初始化完成后会自动创建一个 token，记录下面加入节点的命令，24小时内可使用该 token 向集群添加节点：
+```sh
+kubeadm join 192.168.198.129:6443 --token wdagmm.0he40pufw18d1n68 \
+    --discovery-token-ca-cert-hash sha256:ba6ba29500a883fe4eef4d2ab575803bc6360c8c73ef03c21d7413ae027d0391
+```
 # 2.5 添加网络插件
+master节点必须，安装网络插件
 此时我们使用kubectl get nodes查看集群节点运行情况，会发现节点始终是 NotReady，因为我们没有安装必要的网络组件，可参考参考资料4的官方文档进行选择，这里选择比较精致的 WeaveNet，根据文档进行安装，稍等几分钟后集群就正常运行了：
 
 ```sh
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 ```
 
-# 2.6 想集群添加node 节点
+# 2.6 集群添加node 节点
+* 2.1 ~ 2.3 全部执行一遍
+```sh
+[root@localhost yum.repos.d]# kubeadm join 192.168.198.129:6443 --token wdagmm.0he40pufw18d1n68 \
+>     --discovery-token-ca-cert-hash sha256:ba6ba29500a883fe4eef4d2ab575803bc6360c8c73ef03c21d7413ae027d0391
+W0227 14:11:13.980208   50524 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
+[preflight] Running pre-flight checks
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
+[kubelet-start] Downloading configuration for the kubelet from the "kubelet-config-1.17" ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+```
+
+## 2.6.1 从master节点查看 集群状态
+```sh
+[root@localhost yum.repos.d]# kubectl get nodes
+NAME      STATUS   ROLES    AGE   VERSION
+master1   Ready    master   13m   v1.17.3
+node1     Ready    <none>   64s   v1.17.3
+```
+
+# 2.7 部署一个pod
+TODO
+# 2.8 
 
 
 
