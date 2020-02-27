@@ -246,13 +246,13 @@ node1     Ready    <none>   64s   v1.17.3
 # 2.7 部署一个pod
 创建一个最简单的pod，使用 busybox 镜像简单测试 pod:
 ```sh
-kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -- sh
+kubectl run -i --tty busybox --image=latelee/busybox --restart=Never --rm -- sh
 
 ```
 稍等片刻，即可进入 busybox 命令行：
 
 ```sh
-[root@localhost yum.repos.d]# kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -- sh
+[root@localhost yum.repos.d]# kubectl run -i --tty busybox --image=latelee/busybox --restart=Never --rm -- sh
 If you don't see a command prompt, try pressing enter.
 / # ls
 author.txt  dev         home        lib64       root        tmp         var
@@ -267,6 +267,10 @@ bin         etc         lib         proc        sys         usr
     inet 10.44.0.1/12 brd 10.47.255.255 scope global eth0
        valid_lft forever preferred_lft forever
 / #
+
+
+# 退出执行
+exit
 ```
 在开启一个命令行窗口，查看pods状态
 ```sh
