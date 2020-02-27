@@ -238,8 +238,38 @@ node1     Ready    <none>   64s   v1.17.3
 ```
 
 # 2.7 部署一个pod
-TODO
-# 2.8 
+创建一个最简单的pod，使用 busybox 镜像简单测试 pod:
+```sh
+kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -- sh
+
+```
+稍等片刻，即可进入 busybox 命令行：
+
+```sh
+[root@localhost yum.repos.d]# kubectl run -i --tty busybox --image=latelee/busybox --restart=Never -                                                      - sh
+If you don't see a command prompt, try pressing enter.
+/ # ls
+author.txt  dev         home        lib64       root        tmp         var
+bin         etc         lib         proc        sys         usr
+/ # ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+12: eth0@if13: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1376 qdisc noqueue
+    link/ether 62:15:b8:99:ce:85 brd ff:ff:ff:ff:ff:ff
+    inet 10.44.0.1/12 brd 10.47.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+/ #
+```
+在开启一个命令行窗口，查看pods状态
+```sh
+[root@master1 ~]# kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+busybox   1/1     Running   0          104s
+```
+# TODO
+* 网络插件研究
 
 
 
