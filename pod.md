@@ -32,6 +32,12 @@ ServiceAccountToken，只是一种特殊的 Secret 而已。
 在一个 Pod 里安装一个 Kubernetes的 Client，这样就可以从容器里直接访问并且操作这个 Kubernetes 的 API 了。
 ServiceAccountToken 就是 为了解决默认api 授权问题。
 
+* 默认容器中的存放位置
+```sh
+ # ls /var/run/secrets/kubernetes.io/serviceaccount/
+ca.crt     namespace  token
+```
+
 # Probe (探针)
 
 Pod 的另一个重要的配置：容器健康检查和恢复机制。
