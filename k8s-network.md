@@ -8,3 +8,25 @@
 卡”上，哪怕这两个“网卡”在不同的 Network Namespace 里。
 
 ![docker通信图](image/network/docker0.jpg)
+
+## 跨主机通信
+
+* Overlay Network（覆盖网络）
+![docker通信图](image/network/docker1.jpg)
+
+# 容器跨主机网络
+
+k8s 各种网络插件，主要是为了容器跨主机通信方案。
+
+## Flannel
+
+* VXLAN
+* host-gw
+* UDP
+
+### udp 模式
+
+* flannel0 - 就是一个TUN设备(Tunnel 设备)，就是修改ip包。
+![udp 模式跨主机通信原理](image/network/Flannel/udp.jpg)
+
+### 
