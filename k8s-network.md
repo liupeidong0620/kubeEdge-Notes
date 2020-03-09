@@ -27,6 +27,10 @@ k8s 各种网络插件，主要是为了容器跨主机通信方案。
 ### udp 模式
 
 * flannel0 - 就是一个TUN设备(Tunnel 设备)，就是修改ip包。
+
 ![udp 模式跨主机通信原理](image/network/Flannel/udp.jpg)
 
-### 
+# service
+
+
+![iptables 模式](image/network/)
