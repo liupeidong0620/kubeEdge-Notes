@@ -32,9 +32,6 @@ k8s 各种网络插件，主要是为了容器跨主机通信方案。
 
 # service
 
-
-![iptables 模式](image/network/)
-
 ## service访问pod原理图
 
 ![service访问pod](image/network/iptables/k8s-network.png)
