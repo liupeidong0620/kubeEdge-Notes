@@ -34,3 +34,13 @@ k8s 各种网络插件，主要是为了容器跨主机通信方案。
 
 
 ![iptables 模式](image/network/)
+
+## service访问pod原理图
+
+![service访问pod](image/network/iptables/k8s-network.png)
+
+* 1. curl访问service ip:port(10.100.2.5:80), 请求数据进入Node1 eth0网卡
+* 2. 开始执行iptables规则，prerouting链规则，根据规则随机选择一个pod ip，iptables进行DNAT，修改ip报文目的地址。
+* 3. 开始判断目的ip是否是本机
+* 4. 数据从forward哪里转发到是其它node
+* 5. 通过网络插件，将包转发到对应的pod中
