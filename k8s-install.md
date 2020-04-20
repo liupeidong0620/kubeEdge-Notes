@@ -161,7 +161,7 @@ EOF
 ```
 ## 2.3.2 安装 启动
 ```sh
-yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+yum install -y kubelet-17.0.3 kubeadm-17.0.3 kubectl-17.0.3 --disableexcludes=kubernetes
 
 systemctl enable --now kubelet
 ```
